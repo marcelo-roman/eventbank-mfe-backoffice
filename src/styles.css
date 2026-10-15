@@ -1,0 +1,98 @@
+.applications {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+  gap: 20px;
+}
+
+.application {
+  display: grid;
+  gap: 16px;
+}
+
+.application-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.application-head h3 {
+  font-size: 1.125rem;
+}
+
+.application-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 18px;
+  margin: 0;
+}
+
+.application-facts dt {
+  color: var(--muted);
+}
+
+.application-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.application-actions,
+.reject-form {
+  display: flex;
+  gap: 10px;
+  align-items: end;
+  flex-wrap: wrap;
+}
+
+.reject-form .field {
+  flex: 1 1 240px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  padding: 0 12px 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.table td {
+  padding: 12px 12px 12px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.table .numeric {
+  text-align: right;
+}
+
+.table-sub {
+  display: block;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.status-pendingreview {
+  color: var(--waiting);
+}
+
+.status-approved {
+  color: var(--read);
+  background: var(--read-soft);
+  box-shadow: none;
+}
+
+.status-rejected {
+  color: var(--danger);
+  background: var(--danger-soft);
+  box-shadow: none;
+}
