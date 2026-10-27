@@ -1,11 +1,13 @@
 import { type SyntheticEvent, useState } from 'react';
 import { ErrorMessage } from '../shared/ErrorMessage';
 import { formatTime } from '../shared/format';
+import { useLocale } from '../shared/i18n/LocaleContext';
 import { ageOn, formatCpf, formatPhone } from '../shared/people';
 import { type Customer } from '../shared/types';
 import { useReview } from './api';
 
 export function ApplicationCard({ customer }: { customer: Customer }) {
+  const { locale, t } = useLocale();
   const review = useReview();
   const [rejecting, setRejecting] = useState(false);
   const [reason, setReason] = useState('');
@@ -16,25 +18,25 @@ export function ApplicationCard({ customer }: { customer: Customer }) {
   };
 
   return (
-    <li className="panel application" aria-label={`Application from ${customer.fullName}`}>
+    <li className="panel application" aria-label={t.applications.from(customer.fullName)}>
       <div className="application-head">
         <h3>{customer.fullName}</h3>
-        <span className="muted">Applied {formatTime(customer.registeredAt)}</span>
+        <span className="muted">{t.applications.applied(formatTime(customer.registeredAt, locale))}</span>
       </div>
       <dl className="application-facts">
-        <dt>CPF</dt>
+        <dt>{t.applications.cpf}</dt>
         <dd>{formatCpf(customer.cpf)}</dd>
-        <dt>Age</dt>
-        <dd>{ageOn(customer.birthDate, new Date())} years</dd>
-        <dt>E-mail</dt>
+        <dt>{t.applications.age}</dt>
+        <dd>{t.applications.years(ageOn(customer.birthDate, new Date()))}</dd>
+        <dt>{t.applications.email}</dt>
         <dd>{customer.email}</dd>
-        <dt>Phone</dt>
+        <dt>{t.applications.phone}</dt>
         <dd>{formatPhone(customer.phone)}</dd>
       </dl>
       {rejecting ? (
         <form className="reject-form" onSubmit={reject}>
           <label className="field">
-            <span>Reason the customer will read</span>
+            <span>{t.applications.reason}</span>
             <input
               value={reason}
               onChange={(event) => {
@@ -44,7 +46,7 @@ export function ApplicationCard({ customer }: { customer: Customer }) {
             />
           </label>
           <button type="submit" className="button" disabled={review.isPending}>
-            Reject application
+            {t.applications.reject}
           </button>
           <button
             type="button"
@@ -53,7 +55,7 @@ export function ApplicationCard({ customer }: { customer: Customer }) {
               setRejecting(false);
             }}
           >
-            Cancel
+            {t.applications.cancel}
           </button>
         </form>
       ) : (
@@ -66,7 +68,7 @@ export function ApplicationCard({ customer }: { customer: Customer }) {
               review.mutate({ customerId: customer.id, decision: 'approve' });
             }}
           >
-            {review.isPending ? 'Saving…' : 'Approve'}
+            {review.isPending ? t.applications.saving : t.applications.approve}
           </button>
           <button
             type="button"
@@ -75,7 +77,7 @@ export function ApplicationCard({ customer }: { customer: Customer }) {
               setRejecting(true);
             }}
           >
-            Reject
+            {t.applications.startReject}
           </button>
         </div>
       )}

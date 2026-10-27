@@ -1,40 +1,35 @@
 import { useState } from 'react';
+import { useLocale } from '../shared/i18n/LocaleContext';
 import { AllAccounts } from './AllAccounts';
 import { Applications } from './Applications';
 import { Customers } from './Customers';
 
-const tabs = [
-  { key: 'applications', label: 'Applications to review' },
-  { key: 'customers', label: 'Customers' },
-  { key: 'accounts', label: 'Accounts' },
-] as const;
+const tabs = ['applications', 'customers', 'accounts'] as const;
 
-type Tab = (typeof tabs)[number]['key'];
+type Tab = (typeof tabs)[number];
 
 export function BackofficePage() {
+  const { t } = useLocale();
   const [tab, setTab] = useState<Tab>('applications');
 
   return (
     <div className="page">
       <header className="page-header">
-        <h1>Back office</h1>
-        <p className="lede">
-          Approving an application records CustomerApproved. Accounts, Transfers and Notifications each react to it on
-          their own: the account opens, PIX learns the CPF, and the customer gets an e-mail.
-        </p>
+        <h1>{t.backoffice.title}</h1>
+        <p className="lede">{t.backoffice.lede}</p>
       </header>
       <div className="tabs" role="tablist">
         {tabs.map((option) => (
           <button
-            key={option.key}
+            key={option}
             type="button"
             role="tab"
-            aria-selected={tab === option.key}
+            aria-selected={tab === option}
             onClick={() => {
-              setTab(option.key);
+              setTab(option);
             }}
           >
-            {option.label}
+            {t.backoffice.tabs[option]}
           </button>
         ))}
       </div>
